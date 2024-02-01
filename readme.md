@@ -6,14 +6,8 @@
 
 ## Endpoints:
 
-- **/getNormal/:url** example: `https://express-proxy-jnve.onrender.com/getNormal/https://jsonplaceholder.typicode.com/posts` [Link](https://express-proxy-jnve.onrender.com/getNormal/https://jsonplaceholder.typicode.com/posts)
+- **/get/:url** example: `https://express-proxy-jnve.onrender.com/getNormal/https://jsonplaceholder.typicode.com/posts` [Link](https://express-proxy-jnve.onrender.com/getNormal/https://jsonplaceholder.typicode.com/posts)
 
-- **/getEncode/:url** example: `https://express-proxy-jnve.onrender.com/getEncode/https%3A%2F%2Fjsonplaceholder.typicode.com%2Fposts` [Link](https://express-proxy-jnve.onrender.com/getEncode/https%3A%2F%2Fjsonplaceholder.typicode.com%2Fposts)
-
-- **/postNormal/:url**
-
-- **/postEncode/:url**
-- **/putNormal/:url**
-- **/putEncode/:url**
-- **/deleteNormal/:url**
-- **/deleteEncode/:url**
+- **/post/:url**
+- **/put/:url**
+- **/delete/:url**
