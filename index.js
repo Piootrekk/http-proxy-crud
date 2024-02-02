@@ -1,65 +1,31 @@
 const express = require("express");
 const axios = require("axios");
-const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
 
 const app = express();
 const port = 3001;
+const swaggerDocument = YAML.load("./swagger-definition.yaml");
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.json());
-
-const swaggerOptions = {
-  definition: {
-    openapi: "3.1.0",
-    info: {
-      title: "Express API Proxy with Swagger",
-      version: "1.0.0",
-      description: "A simple Express API proxy with Swagger documentation",
-    },
-  },
-  apis: ["./index.js"],
-};
-
-const swaggerSpec = swaggerJsdoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
+app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
 
+
 app.get("/", (req, res) => {
   res.redirect("/api-docs");
 });
 
-/**
- * @swagger
- * /get/{path}:
- *   get:
- *     summary: Get request with url path
- *     tags: [Url proxy]
- *     description: Normal or encoded url path
- *     parameters:
- *       - in: path
- *         name: path
- *         schema:
- *           type: string
- *         required: true
- *         examples:
- *          examlpe1:
- *            value: https%3A%2F%2Fsteamcommunity.com%2Fmarket%2Fpriceoverview%2F%3Fcurrency%3D6%26market_hash_name%3DUnusual%2520Mean%2520Captain%26appid%3D440%26language%3Dpolish
- *          example2:
- *            value: https://steamcommunity.com/market/priceoverview/?currency=6&market_hash_name=Unusual%20Mean%20Captain&appid=440&language=polish
- *     responses:
- *       200:
- *         description: OK
- *       500:
- *         description: Error
- */
 app.get("/get/:path(*)", async (req, res) => {
   try {
     const decodedPath = decodeURIComponent(req.params.path);
-    console.log("Received request to /getNormal with path:", decodedPath);
+    console.log("Received request to /get with path:", decodedPath);
 
     const response = await axios.get(decodedPath, {
       params: req.query,
@@ -67,7 +33,7 @@ app.get("/get/:path(*)", async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error("Error in /getNormal endpoint:", error);
+    console.error("Error in /get endpoint:", error);
     res.status(500).json({
       error: "An error occurred while processing the API request.",
       path: req.params.path,
@@ -75,34 +41,22 @@ app.get("/get/:path(*)", async (req, res) => {
   }
 });
 
-/**
- * @swagger
- * /post/{path}:
- *   post:
- *     summary: Post request with url path
- *     tags: [Url proxy]
- *     description: Normal or encoded path
- *     parameters:
- *       - in: path
- *         name: path
- *         schema:
- *           type: string
- *         required: true
- *     responses:
- *       200:
- *         description: OK
- *       500:
- *         description: Error
- */
 app.post("/post/:path(*)", async (req, res) => {
   try {
+    const requestData = req.body;
+    console.log(requestData);
     const decodedPath = decodeURIComponent(req.params.path);
-    console.log("Received POST request to /postNormal with path:", decodedPath);
+    console.log("Received POST request to /post with path:", decodedPath);
 
-    const response = await axios.post(decodedPath, req.body);
+    const response = await axios.post(decodedPath, req.body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
     res.json(response.data);
   } catch (error) {
-    console.error("Error in /postNormal endpoint:", error);
+    console.error("Error in /post endpoint:", error);
     res.status(500).json({
       error: "An error occurred while processing the API request.",
       path: req.params.path,
@@ -110,25 +64,6 @@ app.post("/post/:path(*)", async (req, res) => {
   }
 });
 
-/**
- * @swagger
- * /put/{path}:
- *   put:
- *     summary: Put request with url path
- *     tags: [Url proxy]
- *     description: Normal or encoded path
- *     parameters:
- *       - in: path
- *         name: path
- *         schema:
- *           type: string
- *         required: true
- *     responses:
- *       200:
- *         description: OK
- *       500:
- *         description: Error
- */
 app.put("/put/:path(*)", async (req, res) => {
   try {
     const decodedPath = decodeURIComponent(req.params.path);
@@ -137,44 +72,23 @@ app.put("/put/:path(*)", async (req, res) => {
     const response = await axios.put(decodedPath, req.body);
     res.json(response.data);
   } catch (error) {
-    console.error("Error in /putNormal endpoint:", error);
+    console.error("Error in /put endpoint:", error);
     res.status(500).json({
       error: "An error occurred while processing the API request.",
       path: req.params.path,
     });
   }
 });
-/**
- * @swagger
- * /delete/{path}:
- *   delete:
- *     summary: Delete request with url path
- *     tags: [Url proxy]
- *     description: Normal or encoded path
- *     parameters:
- *       - in: path
- *         name: path
- *         schema:
- *           type: string
- *         required: true
- *     responses:
- *       200:
- *         description: OK
- *       500:
- *         description: Error
- */
+
 app.delete("/delete/:path(*)", async (req, res) => {
   try {
     const decodedPath = decodeURIComponent(req.params.path);
-    console.log(
-      "Received DELETE request to /deleteNormal with path:",
-      decodedPath
-    );
+    console.log("Received DELETE request to /delete with path:", decodedPath);
 
     const response = await axios.delete(decodedPath);
     res.json(response.data);
   } catch (error) {
-    console.error("Error in /deleteNormal endpoint:", error);
+    console.error("Error in /delete endpoint:", error);
     res.status(500).json({
       error: "An error occurred while processing the API request.",
       path: req.params.path,
@@ -182,6 +96,7 @@ app.delete("/delete/:path(*)", async (req, res) => {
   }
 });
 
-app.get("/api-docs", (req, res) => {
-  res.json(swaggerSpec);
+app.post("/test", (req, res) => {
+  console.log(req.body);
+  res.json(req.body);
 });

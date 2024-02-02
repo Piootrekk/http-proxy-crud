@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  title: "Express API Proxy with Swagger "
+  version: "1.0.0"
+  description: "A simple Express API proxy with Swagger documentation to avoid CORS policy errors and redirect to the correct url"
+apis:
+  - "./index.js"
+paths:
+  /get/{path}:
+    get:
+      summary: Get request with url path
+      tags: [Url proxy]
+      description: Normal or encoded url path
+      parameters:
+        - in: path
+          name: path
+          schema:
+            type: string
+          required: true
+          description: URL path to be decoded
+          examples:
+            example_normal_url:
+              value: "https://steamcommunity.com/market/priceoverview/?appid=730&currency=6&market_hash_name=AK-47%20%7C%20Redline%20%28Field-Tested%29"
+              summary: Example path value
+            example_encoded_url:
+              value: "https%3A%2F%2Fsteamcommunity.com%2Fmarket%2Fpriceoverview%2F%3Fcurrency%3D3%26market_hash_name%3DUnusual%2520Mean%2520Captain%26appid%3D440%26language%3Dpolish"
+              summary: Example encoded path value
+      responses:
+        200:
+          description: OK
+        500:
+          description: Error
+  /post/{path}:
+    post:
+      summary: Post request with url path
+      tags: [Url proxy]
+      description: Normal or encoded path
+      parameters:
+        - in: path
+          name: path
+          schema:
+            type: string
+          required: true
+          examples:
+            example:
+              value: "https://jsonplaceholder.typicode.com/posts"
+      requestBody:
+        content:
+          application/json:
+            example:
+              title: "foo"
+              body: "bar"
+              userId: 1
+      responses:
+        200:
+          description: OK
+        500:
+          description: Error
+  /put/{path}:
+    put:
+      summary: Put request with url path
+      tags: [Url proxy]
+      description: Normal or encoded path
+      parameters:
+        - in: path
+          name: path
+          schema:
+            type: string
+          required: true
+          examples:
+            example:
+              value: "https://jsonplaceholder.typicode.com/posts/1"
+      requestBody:
+        content:
+          application/json:
+            example:
+              id: 1
+              title: "foo"
+              body: "bar"
+              userId: 1
+      responses:
+        200:
+          description: OK
+        500:
+          description: Error
+  /delete/{path}:
+    delete:
+      summary: Delete request with url path
+      tags: [Url proxy]
+      description: Normal or encoded path
+      parameters:
+        - in: path
+          name: path
+          schema:
+            type: string
+          required: true
+          examples:
+            example:
+              value: "https://jsonplaceholder.typicode.com/posts/1"
+      responses:
+        200:
+          description: OK
+        500:
+          description: Error
