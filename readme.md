@@ -6,7 +6,7 @@
 
 ## Endpoints:
 
-- **/get/:url** example: `https://express-proxy-jnve.onrender.com/getNormal/https://jsonplaceholder.typicode.com/posts` [Link](https://express-proxy-jnve.onrender.com/getNormal/https://jsonplaceholder.typicode.com/posts)
+- **/get/:url** example: `https://express-proxy-jnve.onrender.com/get/https://jsonplaceholder.typicode.com/posts` [Link](https://express-proxy-jnve.onrender.com/get/https://jsonplaceholder.typicode.com/posts)
 
 - **/post/:url**
 - **/put/:url**
