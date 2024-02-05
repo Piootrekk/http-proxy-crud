@@ -17,7 +17,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
 app.get("/", (req, res) => {
   res.redirect("/api-docs");
 });
@@ -33,9 +32,10 @@ app.get("/get/:path(*)", async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error("Error in /get endpoint:", error);
-    res.status(500).json({
-      error: "An error occurred while processing the API request.",
+    res.status(error.response.status).json({
+      message: error.message,
+      status: error.response.status,
+      code: error.code,
       path: req.params.path,
     });
   }
@@ -56,9 +56,10 @@ app.post("/post/:path(*)", async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error("Error in /post endpoint:", error);
-    res.status(500).json({
-      error: "An error occurred while processing the API request.",
+    res.status(error.response.status).json({
+      message: error.message,
+      status: error.response.status,
+      code: error.code,
       path: req.params.path,
     });
   }
@@ -72,9 +73,10 @@ app.put("/put/:path(*)", async (req, res) => {
     const response = await axios.put(decodedPath, req.body);
     res.json(response.data);
   } catch (error) {
-    console.error("Error in /put endpoint:", error);
-    res.status(500).json({
-      error: "An error occurred while processing the API request.",
+    res.status(error.response.status).json({
+      message: error.message,
+      status: error.response.status,
+      code: error.code,
       path: req.params.path,
     });
   }
@@ -88,9 +90,10 @@ app.delete("/delete/:path(*)", async (req, res) => {
     const response = await axios.delete(decodedPath);
     res.json(response.data);
   } catch (error) {
-    console.error("Error in /delete endpoint:", error);
-    res.status(500).json({
-      error: "An error occurred while processing the API request.",
+    res.status(error.response.status).json({
+      message: error.message,
+      status: error.response.status,
+      code: error.code,
       path: req.params.path,
     });
   }
