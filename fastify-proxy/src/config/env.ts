@@ -1,7 +1,9 @@
 import { z } from "zod";
+import { config } from "dotenv";
 
+config();
 const envSchema = z.object({
-  PORT: z.string(),
+  PORT: z.string().min(1).transform(Number),
 });
 const { PORT } = process.env;
 const parsedEnv = envSchema.safeParse({ PORT });
