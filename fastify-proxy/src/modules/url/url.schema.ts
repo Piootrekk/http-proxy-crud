@@ -2,17 +2,7 @@ import { z } from "zod";
 import zodToJsonSchema from "zod-to-json-schema";
 
 export const urlQuerySchema = z.object({
-  link: z.string().refine(
-    (val) => {
-      try {
-        new URL(val);
-        return true;
-      } catch {
-        return false;
-      }
-    },
-    { message: "Invalid URL format" }
-  ),
+  link: z.string().url({ message: "Has to be URL" }),
 });
 
 const urlBodySchema = z.record(z.any());

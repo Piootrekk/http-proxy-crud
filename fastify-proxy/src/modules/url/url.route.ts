@@ -12,12 +12,13 @@ import {
   urlResponseRerrorSchemaJson,
   urlResponseSchemaJson,
 } from "./url.schema";
-
+import { preHandler } from "./url.hook";
 const urlRoutes = async (server: FastifyInstance) => {
   server.get(
     "/",
     {
       schema: {
+        tags: ["URL"],
         querystring: urlQuerySchemaJson,
         response: {
           "2xx": urlResponseSchemaJson,
@@ -25,6 +26,7 @@ const urlRoutes = async (server: FastifyInstance) => {
           "5xx": urlResponseRerrorSchemaJson,
         },
       },
+      preHandler,
     },
     getUrlHandler
   );
@@ -32,6 +34,7 @@ const urlRoutes = async (server: FastifyInstance) => {
     "/",
     {
       schema: {
+        tags: ["URL"],
         querystring: urlQuerySchemaJson,
         body: urlBodySchemaJson,
         response: {
@@ -47,6 +50,7 @@ const urlRoutes = async (server: FastifyInstance) => {
     "/",
     {
       schema: {
+        tags: ["URL"],
         querystring: urlQuerySchemaJson,
         response: {
           "2xx": urlResponseSchemaJson,
@@ -61,6 +65,7 @@ const urlRoutes = async (server: FastifyInstance) => {
     "/",
     {
       schema: {
+        tags: ["URL"],
         querystring: urlQuerySchemaJson,
         body: urlBodySchemaJson,
         response: {
@@ -76,6 +81,7 @@ const urlRoutes = async (server: FastifyInstance) => {
     "/",
     {
       schema: {
+        tags: ["URL"],
         querystring: urlQuerySchemaJson,
         body: urlBodySchemaJson,
         response: {

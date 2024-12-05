@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
   res.redirect("/api-docs");
 });
 
-app.get("/get/:path(*)", async (req, res) => {
+app.get("/link/:path(*)", async (req, res) => {
   try {
     const decodedPath = decodeURIComponent(req.params.path);
     console.log("Received request to /get with path:", decodedPath);
@@ -41,7 +41,7 @@ app.get("/get/:path(*)", async (req, res) => {
   }
 });
 
-app.post("/post/:path(*)", async (req, res) => {
+app.post("/link/:path(*)", async (req, res) => {
   try {
     const requestData = req.body;
     console.log(requestData);
@@ -65,10 +65,10 @@ app.post("/post/:path(*)", async (req, res) => {
   }
 });
 
-app.put("/put/:path(*)", async (req, res) => {
+app.put("/link/:path(*)", async (req, res) => {
   try {
     const decodedPath = decodeURIComponent(req.params.path);
-    console.log("Received PUT request to /putNormal with path:", decodedPath);
+    console.log("Received PUT request to /put with path:", decodedPath);
 
     const response = await axios.put(decodedPath, req.body);
     res.json(response.data);
@@ -82,7 +82,7 @@ app.put("/put/:path(*)", async (req, res) => {
   }
 });
 
-app.delete("/delete/:path(*)", async (req, res) => {
+app.delete("/link/:path(*)", async (req, res) => {
   try {
     const decodedPath = decodeURIComponent(req.params.path);
     console.log("Received DELETE request to /delete with path:", decodedPath);
