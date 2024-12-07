@@ -8,34 +8,35 @@ import {
 } from "./url.controller";
 import {
   urlBodySchemaJson,
-  urlQuerySchemaJson,
+  urlParamSchemaJson,
   urlResponseRerrorSchemaJson,
   urlResponseSchemaJson,
 } from "./url.schema";
 import { preHandler } from "./url.hook";
+
 const urlRoutes = async (server: FastifyInstance) => {
   server.get(
-    "/",
+    "/*",
     {
       schema: {
         tags: ["URL"],
-        querystring: urlQuerySchemaJson,
+        params: urlParamSchemaJson,
         response: {
           "2xx": urlResponseSchemaJson,
           "4xx": urlResponseRerrorSchemaJson,
           "5xx": urlResponseRerrorSchemaJson,
         },
       },
-      preHandler,
+      preHandler: preHandler,
     },
     getUrlHandler
   );
   server.post(
-    "/",
+    "/*",
     {
       schema: {
         tags: ["URL"],
-        querystring: urlQuerySchemaJson,
+        params: urlParamSchemaJson,
         body: urlBodySchemaJson,
         response: {
           "2xx": urlResponseSchemaJson,
@@ -47,11 +48,11 @@ const urlRoutes = async (server: FastifyInstance) => {
     postUrlHandler
   );
   server.delete(
-    "/",
+    "/*",
     {
       schema: {
         tags: ["URL"],
-        querystring: urlQuerySchemaJson,
+        params: urlParamSchemaJson,
         response: {
           "2xx": urlResponseSchemaJson,
           "4xx": urlResponseRerrorSchemaJson,
@@ -62,11 +63,11 @@ const urlRoutes = async (server: FastifyInstance) => {
     deletetUrlHandler
   );
   server.put(
-    "/",
+    "/*",
     {
       schema: {
         tags: ["URL"],
-        querystring: urlQuerySchemaJson,
+        params: urlParamSchemaJson,
         body: urlBodySchemaJson,
         response: {
           "2xx": urlResponseSchemaJson,
@@ -78,11 +79,11 @@ const urlRoutes = async (server: FastifyInstance) => {
     putUrlHandler
   );
   server.patch(
-    "/",
+    "/*",
     {
       schema: {
         tags: ["URL"],
-        querystring: urlQuerySchemaJson,
+        params: urlParamSchemaJson,
         body: urlBodySchemaJson,
         response: {
           "2xx": urlResponseSchemaJson,

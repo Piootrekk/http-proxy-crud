@@ -1,8 +1,8 @@
 import { z } from "zod";
 import zodToJsonSchema from "zod-to-json-schema";
 
-export const urlQuerySchema = z.object({
-  link: z.string().url({ message: "Has to be URL" }),
+export const urlParamSchema = z.object({
+  "*": z.string().url(),
 });
 
 const urlBodySchema = z.record(z.any());
@@ -15,18 +15,18 @@ const urlResponseErrorSchema = z.object({
 const urlResponseSchema = z.any();
 
 const urlResponseRerrorSchemaJson = zodToJsonSchema(urlResponseErrorSchema);
-const urlQuerySchemaJson = zodToJsonSchema(urlQuerySchema);
+const urlParamSchemaJson = zodToJsonSchema(urlParamSchema);
 const urlResponseSchemaJson = zodToJsonSchema(urlResponseSchema);
 const urlBodySchemaJson = zodToJsonSchema(urlBodySchema);
 
-type TUrlQuery = z.infer<typeof urlQuerySchema>;
+type TUrlParam = z.infer<typeof urlParamSchema>;
 type TErrorResponse = z.infer<typeof urlResponseErrorSchema>;
 type TUrlBody = z.infer<typeof urlBodySchema>;
 
 export {
-  urlQuerySchemaJson,
+  urlParamSchemaJson,
   urlResponseSchemaJson,
   urlBodySchemaJson,
   urlResponseRerrorSchemaJson,
 };
-export type { TUrlQuery, TErrorResponse, TUrlBody };
+export type { TUrlParam, TErrorResponse, TUrlBody };

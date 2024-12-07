@@ -1,19 +1,17 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { TUrlQuery } from "./url.schema";
+import { TUrlParam } from "./url.schema";
 
 const preHandler = async (
-  request: FastifyRequest<{
-    Querystring: TUrlQuery;
-  }>,
+  request: FastifyRequest<{ Params: TUrlParam }>,
   reply: FastifyReply
 ) => {
-  const rawQuery = request.raw.url?.split("?link=")[1];
+  const rawQuery = request.originalUrl.replace("/url/", "");
   if (!rawQuery) {
     reply.status(400).send({ error: 'Missing "link" parameter' });
     return;
   }
-  const encodeURL = decodeURIComponent(rawQuery);
-  request.query = { link: encodeURL };
+  request.params["*"] = rawQuery;
+  console.log(`RAWQUERY`, rawQuery);
 };
 
 export { preHandler };

@@ -6,7 +6,7 @@ info:
 apis:
   - "./index.js"
 paths:
-  /get/{path}:
+  /link/{path}:
     get:
       summary: Get request with url path
       tags: [Url proxy]
@@ -30,7 +30,7 @@ paths:
           description: OK
         500:
           description: Error
-  /post/{path}:
+  /link/{path}:
     post:
       summary: Post request with url path
       tags: [Url proxy]
@@ -56,7 +56,7 @@ paths:
           description: OK
         500:
           description: Error
-  /put/{path}:
+  /link/{path}:
     put:
       summary: Put request with url path
       tags: [Url proxy]
@@ -83,7 +83,7 @@ paths:
           description: OK
         500:
           description: Error
-  /delete/{path}:
+  /link/{path}:
     delete:
       summary: Delete request with url path
       tags: [Url proxy]

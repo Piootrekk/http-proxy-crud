@@ -1,0 +1,14 @@
+name: Registry express proxy to Docker Hub
+on: [workflow_dispatch]
+jobs:
+  dockerize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: build image
+        run: docker build ./express-proxy -t piotrekdockerxd/express-proxy:latest
+      - name: push image to docker hub
+        run: |
+          docker login -u piotrekdockerxd -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push piotrekdockerxd/express-proxy:latest

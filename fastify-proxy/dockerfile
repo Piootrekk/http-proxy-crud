@@ -1,0 +1,19 @@
+FROM node:latest
+
+WORKDIR /app
+
+COPY package.json yarn.lock ./
+
+RUN yarn --pure-lockfile
+
+COPY . .
+
+RUN yarn build
+
+ARG PORT=3000
+
+ENV PORT=$PORT
+
+EXPOSE $PORT
+
+CMD ["yarn", "start"]

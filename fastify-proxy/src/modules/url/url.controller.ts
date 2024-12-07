@@ -6,7 +6,7 @@ import {
   postUrlData,
   putUrlData,
 } from "./url.service";
-import { TUrlQuery, TErrorResponse, TUrlBody } from "./url.schema";
+import { TErrorResponse, TUrlBody, TUrlParam } from "./url.schema";
 import { AxiosError } from "axios";
 
 const errorHandler = (err: unknown): Omit<TErrorResponse, "path"> => {
@@ -26,10 +26,13 @@ const errorHandler = (err: unknown): Omit<TErrorResponse, "path"> => {
 };
 
 const getUrlHandler = async (
-  request: FastifyRequest<{ Querystring: TUrlQuery }>,
+  request: FastifyRequest<{ Params: TUrlParam }>,
   reply: FastifyReply
 ) => {
-  const { link } = request.query;
+  // const link = decodeURIComponent(request.params.link);
+  const link = decodeURIComponent(request.params["*"]);
+
+  console.log(`LINK:` + link);
   try {
     const response = await getUrlData(link);
     reply.status(200).send(response.data);
@@ -43,10 +46,13 @@ const getUrlHandler = async (
 };
 
 const deletetUrlHandler = async (
-  request: FastifyRequest<{ Querystring: TUrlQuery }>,
+  request: FastifyRequest<{ Params: TUrlParam }>,
   reply: FastifyReply
 ) => {
-  const { link } = request.query;
+  // const link = request.params.link;
+  const link = decodeURIComponent(request.params["*"]);
+
+  console.log(link);
   try {
     const response = await deleteUrlData(link);
     reply.status(200).send(response.data);
@@ -60,12 +66,13 @@ const deletetUrlHandler = async (
 };
 
 const postUrlHandler = async (
-  request: FastifyRequest<{ Querystring: TUrlQuery; Body: TUrlBody }>,
+  request: FastifyRequest<{ Params: TUrlParam; Body: TUrlBody }>,
   reply: FastifyReply
 ) => {
-  const { link } = request.query;
-  const data = request.body;
+  // const link = request.params.link;
+  const link = decodeURIComponent(request.params["*"]);
 
+  const data = request.body;
   try {
     const response = await postUrlData(link, data);
     reply.status(response.status).send(response.data);
@@ -79,10 +86,12 @@ const postUrlHandler = async (
 };
 
 const patchUrlHandler = async (
-  request: FastifyRequest<{ Querystring: TUrlQuery; Body: TUrlBody }>,
+  request: FastifyRequest<{ Params: TUrlParam; Body: TUrlBody }>,
   reply: FastifyReply
 ) => {
-  const { link } = request.query;
+  // const link = request.params.link;
+  const link = decodeURIComponent(request.params["*"]);
+
   const data = request.body;
   try {
     const response = await patchUrlData(link, data);
@@ -97,10 +106,12 @@ const patchUrlHandler = async (
 };
 
 const putUrlHandler = async (
-  request: FastifyRequest<{ Querystring: TUrlQuery; Body: TUrlBody }>,
+  request: FastifyRequest<{ Params: TUrlParam; Body: TUrlBody }>,
   reply: FastifyReply
 ) => {
-  const { link } = request.query;
+  // const link = request.params.link;
+  const link = decodeURIComponent(request.params["*"]);
+
   const data = request.body;
 
   try {
