@@ -7,9 +7,7 @@ const app = express();
 const port = 3001;
 const swaggerDocument = YAML.load("./swagger-definition.yaml");
 
-app.listen(port, () => console.log(`Server listening on port ${port}`));
-
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
@@ -18,7 +16,11 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.redirect("/api-docs");
+  res.redirect("/docs");
+});
+
+app.get("/health", (req, res) => {
+  res.json({ health: true });
 });
 
 app.get("/link/:path(*)", async (req, res) => {
@@ -99,7 +101,4 @@ app.delete("/link/:path(*)", async (req, res) => {
   }
 });
 
-app.post("/test", (req, res) => {
-  console.log(req.body);
-  res.json(req.body);
-});
+app.listen(port, () => console.log(`Server listening on port ${port}`));

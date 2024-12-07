@@ -1,16 +1,14 @@
 openapi: 3.0.0
 info:
-  title: "Express API Proxy with Swagger "
+  title: "Express API Proxy with Swagger"
   version: "1.0.0"
-  description: "A simple Express API proxy with Swagger documentation to avoid CORS policy errors and redirect to the correct url"
-apis:
-  - "./index.js"
+  description: "A simple Express API proxy with Swagger documentation to avoid CORS policy errors and redirect to the correct URL"
 paths:
   /link/{path}:
     get:
-      summary: Get request with url path
+      summary: Get request with URL path
       tags: [Url proxy]
-      description: Normal or encoded url path
+      description: Normal or encoded URL path
       parameters:
         - in: path
           name: path
@@ -30,9 +28,8 @@ paths:
           description: OK
         500:
           description: Error
-  /link/{path}:
     post:
-      summary: Post request with url path
+      summary: Post request with URL path
       tags: [Url proxy]
       description: Normal or encoded path
       parameters:
@@ -41,6 +38,7 @@ paths:
           schema:
             type: string
           required: true
+          description: URL path
           examples:
             example:
               value: "https://jsonplaceholder.typicode.com/posts"
@@ -56,9 +54,8 @@ paths:
           description: OK
         500:
           description: Error
-  /link/{path}:
     put:
-      summary: Put request with url path
+      summary: Put request with URL path
       tags: [Url proxy]
       description: Normal or encoded path
       parameters:
@@ -67,6 +64,7 @@ paths:
           schema:
             type: string
           required: true
+          description: URL path
           examples:
             example:
               value: "https://jsonplaceholder.typicode.com/posts/1"
@@ -83,9 +81,8 @@ paths:
           description: OK
         500:
           description: Error
-  /link/{path}:
     delete:
-      summary: Delete request with url path
+      summary: Delete request with URL path
       tags: [Url proxy]
       description: Normal or encoded path
       parameters:
@@ -94,11 +91,26 @@ paths:
           schema:
             type: string
           required: true
+          description: URL path
           examples:
             example:
               value: "https://jsonplaceholder.typicode.com/posts/1"
       responses:
         200:
           description: OK
+        500:
+          description: Error
+  /health:
+    get:
+      summary: Health check
+      tags: [Health]
+      description: Health check endpoint
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              example:
+                health: true
         500:
           description: Error
