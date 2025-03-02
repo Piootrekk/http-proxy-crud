@@ -1,16 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { HealthApiTags, HealthCheckMetadata } from './health.swagger';
+import { HealthResponseDto } from './health.dto';
 
 @Controller('health')
-@ApiTags('health')
+@HealthApiTags
 class HealthController {
   @Get()
-  @ApiOperation({ summary: 'Health Check' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns application health status.',
-  })
-  gethealth() {
+  @HealthCheckMetadata.operation
+  @HealthCheckMetadata.okResponse
+  @HealthCheckMetadata.invalidResponse
+  gethealth(): HealthResponseDto {
     return { health: true };
   }
 }
