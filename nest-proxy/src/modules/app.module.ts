@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import HealthModule from './health/health.module';
-import UrlModule from './url/url.module';
+import ProxyModule from './url/proxy.module';
 
 @Module({
-  imports: [HealthModule, UrlModule],
+  imports: [HealthModule, ProxyModule],
 })
 class AppModule {}
 

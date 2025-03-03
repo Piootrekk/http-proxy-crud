@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-class UrlService {
+class ProxyService {
   private readonly httpService: HttpService;
   constructor(httpService: HttpService) {
     this.httpService = httpService;
@@ -16,4 +16,4 @@ class UrlService {
   }
 }
 
-export default UrlService;
+export default ProxyService;
