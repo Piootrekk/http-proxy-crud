@@ -1,21 +1,33 @@
 import {
   ApiBadRequestResponse,
+  ApiBody,
+  ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiOperation,
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { ProxyErrorDto, ProxyResponseDto } from './proxy.dto';
+import { ProxyBodyDto, ProxyErrorDto, ProxyResponseDto } from './proxy.dto';
 
 const ProxyApiTags = ApiTags('proxy');
 
-const GetProxyCheckMetadata = {
-  operation: ApiOperation({ summary: 'Proxy GET' }),
+const ProxyMetadata = {
+  operationGet: ApiOperation({ summary: 'Proxy GET' }),
+  operationPost: ApiOperation({ summary: 'Proxy POST' }),
+  operationPut: ApiOperation({ summary: 'Proxy PUT' }),
+  operationPatch: ApiOperation({ summary: 'Proxy PATCH' }),
+  operationDelete: ApiOperation({ summary: 'Proxy DELETE' }),
+
   params: ApiParam({
     name: 'path',
     type: String,
     description: 'Provide URL to fetch data',
     required: true,
+    allowReserved: true,
+  }),
+
+  body: ApiBody({
+    type: ProxyBodyDto,
   }),
 
   okResponse: ApiOkResponse({
@@ -23,10 +35,14 @@ const GetProxyCheckMetadata = {
     type: ProxyResponseDto,
     example: { example: 'yes' },
   }),
-  invalidResponse: ApiBadRequestResponse({
-    description: 'Error schema proxy',
+  errorResponse: ApiBadRequestResponse({
+    description: 'Error schema request/response proxy',
+    type: ProxyErrorDto,
+  }),
+  errorServer: ApiInternalServerErrorResponse({
+    description: 'Error schema internal server proxy',
     type: ProxyErrorDto,
   }),
 };
 
-export { ProxyApiTags, GetProxyCheckMetadata };
+export { ProxyApiTags, ProxyMetadata };

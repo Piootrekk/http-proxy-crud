@@ -1,6 +1,7 @@
 type TErrorResponse = {
   status: number;
   message: string;
+  type: string;
 };
 
 type IErrorHandler = {

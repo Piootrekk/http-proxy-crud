@@ -1,86 +1,156 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   HttpException,
-  HttpStatus,
-  Req,
-  Res,
+  Param,
+  Patch,
+  Post,
+  Put,
 } from '@nestjs/common';
-import { Request } from 'express';
 import ProxyService from './proxy.sevice';
-import { AxiosError } from 'axios';
-import { GetProxyCheckMetadata, ProxyApiTags } from './proxy.swagger';
+import { ProxyMetadata, ProxyApiTags } from './proxy.swagger';
+import { CommonService } from 'src/common/common.service';
 
-const PREFIX = 'url';
-
-@Controller(PREFIX)
+@Controller('url')
 @ProxyApiTags
 class ProxyController {
   private readonly urlService: ProxyService;
-  constructor(urlService: ProxyService) {
+  private readonly commonService: CommonService;
+
+  constructor(urlService: ProxyService, commonService: CommonService) {
     this.urlService = urlService;
+    this.commonService = commonService;
   }
 
-  private errorNormalize = (err: unknown) => {
-    if (err instanceof AxiosError) {
-      if (err.response) {
-        return {
-          status: err.response.status,
-          message: err.message,
-        };
-      }
-      if (err.request) {
-        return {
-          status: 500,
-          message: 'Internal server error',
-        };
-      }
-      return {
-        status: 500,
-        message: 'An unknown error occurred from fetching data',
-      };
-    }
-    if (err instanceof Error) {
-      return {
-        status: 500,
-        message: err.message,
-      };
-    }
-    return {
-      status: 500,
-      message: 'An unknown error',
-    };
-  };
-
   @Get('*path')
-  @GetProxyCheckMetadata.params
-  @GetProxyCheckMetadata.operation
-  @GetProxyCheckMetadata.okResponse
-  @GetProxyCheckMetadata.invalidResponse
-  async getProxy(@Req() req: Request) {
-    const rawUrl = req.originalUrl.replace(`/${PREFIX}/`, '');
-    // if (!rawUrl.startsWith('http://') && !rawUrl.startsWith('https://')) {
-    //   console.log('ugh');
-    //   throw new HttpException(
-    //     {
-    //       message: 'Invalid URL',
-    //       status: HttpStatus.BAD_REQUEST,
-    //       url: rawUrl,
-    //     },
-    //     HttpStatus.BAD_REQUEST,
-    //   );
-    // }
+  @ProxyMetadata.operationGet
+  @ProxyMetadata.params
+  @ProxyMetadata.okResponse
+  @ProxyMetadata.errorResponse
+  @ProxyMetadata.errorServer
+  async getProxy(@Param('path') path: string) {
     try {
-      const endpointUrl = new URL(rawUrl);
-      const response = await this.urlService.fetchData(endpointUrl);
+      const normaizedUrl = this.urlService.decodeEncodedUrl(path);
+      const response = await this.urlService.getData(normaizedUrl);
       return response;
     } catch (err) {
-      const normalizedError = this.errorNormalize(err);
+      const normalizedError =
+        this.commonService.errorService.normalizeError(err);
       throw new HttpException(
         {
           message: normalizedError.message,
           status: normalizedError.status,
-          url: rawUrl,
+          url: path,
+          type: normalizedError.type,
+        },
+        normalizedError.status,
+      );
+    }
+  }
+  
+  @Post('*path')
+  @ProxyMetadata.operationPost
+  @ProxyMetadata.params
+  @ProxyMetadata.body
+  @ProxyMetadata.okResponse
+  @ProxyMetadata.errorResponse
+  @ProxyMetadata.errorServer
+  async postProxy(@Param('path') path: string, @Body() body: unknown) {
+    try {
+      const normaizedUrl = this.urlService.decodeEncodedUrl(path);
+      const response = await this.urlService.postData(normaizedUrl, body);
+      return response;
+    } catch (err) {
+      const normalizedError =
+        this.commonService.errorService.normalizeError(err);
+      throw new HttpException(
+        {
+          message: normalizedError.message,
+          status: normalizedError.status,
+          url: path,
+          type: normalizedError.type,
+        },
+        normalizedError.status,
+      );
+    }
+  }
+
+  @Put('*path')
+  @ProxyMetadata.operationPut
+  @ProxyMetadata.params
+  @ProxyMetadata.body
+  @ProxyMetadata.okResponse
+  @ProxyMetadata.errorResponse
+  @ProxyMetadata.errorServer
+  async putProxy(@Param('path') path: string, @Body() body: unknown) {
+    try {
+      const normaizedUrl = this.urlService.decodeEncodedUrl(path);
+      const response = await this.urlService.putData(normaizedUrl, body);
+      return response;
+    } catch (err) {
+      const normalizedError =
+        this.commonService.errorService.normalizeError(err);
+      throw new HttpException(
+        {
+          message: normalizedError.message,
+          status: normalizedError.status,
+          url: path,
+          type: normalizedError.type,
+        },
+        normalizedError.status,
+      );
+    }
+  }
+
+  @Patch('*path')
+  @ProxyMetadata.operationPatch
+  @ProxyMetadata.params
+  @ProxyMetadata.body
+  @ProxyMetadata.okResponse
+  @ProxyMetadata.errorResponse
+  @ProxyMetadata.errorServer
+  async patchProxy(@Param('path') path: string, @Body() body: unknown) {
+    try {
+      const normaizedUrl = this.urlService.decodeEncodedUrl(path);
+      const response = await this.urlService.patchtData(normaizedUrl, body);
+      return response;
+    } catch (err) {
+      const normalizedError =
+        this.commonService.errorService.normalizeError(err);
+      throw new HttpException(
+        {
+          message: normalizedError.message,
+          status: normalizedError.status,
+          url: path,
+          type: normalizedError.type,
+        },
+        normalizedError.status,
+      );
+    }
+  }
+
+  @Delete('*path')
+  @ProxyMetadata.operationPost
+  @ProxyMetadata.params
+  @ProxyMetadata.okResponse
+  @ProxyMetadata.errorResponse
+  @ProxyMetadata.errorServer
+  async deleteProxy(@Param('path') path: string) {
+    try {
+      const normaizedUrl = this.urlService.decodeEncodedUrl(path);
+      const response = await this.urlService.deletetData(normaizedUrl);
+      return response;
+    } catch (err) {
+      const normalizedError =
+        this.commonService.errorService.normalizeError(err);
+      throw new HttpException(
+        {
+          message: normalizedError.message,
+          status: normalizedError.status,
+          url: path,
+          type: normalizedError.type,
         },
         normalizedError.status,
       );

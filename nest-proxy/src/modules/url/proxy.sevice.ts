@@ -7,10 +7,61 @@ class ProxyService {
   constructor(httpService: HttpService) {
     this.httpService = httpService;
   }
-  async fetchData(url: URL) {
-    const httpResponse = await this.httpService.axiosRef.get(url.href);
-    if (!httpResponse.data) {
-      throw new Error('Response not found');
+
+  decodeEncodedUrl(rawUrl: string): string {
+    if (!rawUrl.startsWith('http://') && !rawUrl.startsWith('https://')) {
+      console.log(rawUrl);
+      const decodedUrl = decodeURIComponent(rawUrl);
+      console.log(decodedUrl);
+      return decodedUrl;
+    }
+    return rawUrl;
+  }
+
+  async getData(url: string): Promise<unknown> {
+    const httpResponse = await this.httpService.axiosRef.get<unknown>(url);
+    if (httpResponse.data === undefined) {
+      throw new Error('Response from get request not found');
+    }
+    return httpResponse.data;
+  }
+
+  async postData(url: string, body: unknown): Promise<unknown> {
+    const httpResponse = await this.httpService.axiosRef.post<unknown>(
+      url,
+      body,
+    );
+    if (!httpResponse.data === undefined) {
+      throw new Error('Response from post request not found');
+    }
+    return httpResponse.data;
+  }
+
+  async putData(url: string, body: unknown): Promise<unknown> {
+    const httpResponse = await this.httpService.axiosRef.put<unknown>(
+      url,
+      body,
+    );
+    if (!httpResponse.data === undefined) {
+      throw new Error('Response from put request not found');
+    }
+    return httpResponse.data;
+  }
+  async patchtData(url: string, body: unknown): Promise<unknown> {
+    const httpResponse = await this.httpService.axiosRef.patch<unknown>(
+      url,
+      body,
+    );
+    if (!httpResponse.data === undefined) {
+      throw new Error('Response from patch request not found');
+    }
+    return httpResponse.data;
+  }
+
+  async deletetData(url: string): Promise<unknown> {
+    const httpResponse = await this.httpService.axiosRef.delete<unknown>(url);
+    if (!httpResponse.data === undefined) {
+      throw new Error('Response from delete request not found');
     }
     return httpResponse.data;
   }

@@ -8,7 +8,7 @@ class GenericErrorHandler implements IErrorHandler {
   }
 
   handle(error: Error): TErrorResponse {
-    return { status: 500, message: error.message };
+    return { status: 500, message: error.message, type: error.name };
   }
 }
 

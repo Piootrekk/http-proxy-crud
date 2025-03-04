@@ -10,10 +10,10 @@ class ErrorService {
 
   constructor(
     axiosError: AxiosErrorHandler,
-    otherError: OtherErrorHandler,
     genericError: GenericErrorHandler,
+    otherError: OtherErrorHandler,
   ) {
-    this.errorHandlers = [axiosError, otherError, genericError];
+    this.errorHandlers = [axiosError, genericError, otherError];
   }
 
   normalizeError(error: unknown): TErrorResponse {
@@ -22,7 +22,11 @@ class ErrorService {
     );
     return handler
       ? handler.handle(error)
-      : { status: 510, message: 'Something went wrong' };
+      : {
+          status: 510,
+          message: 'Something went wrong',
+          type: 'Ninja error, smthing fucked up',
+        };
   }
 }
 

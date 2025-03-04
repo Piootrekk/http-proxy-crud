@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { IErrorHandler, TErrorResponse } from '../error.interface';
+import { error } from 'console';
 
 @Injectable()
 class OtherErrorHandler implements IErrorHandler {
@@ -7,8 +8,8 @@ class OtherErrorHandler implements IErrorHandler {
     return true;
   }
 
-  handle(error: unknown): TErrorResponse {
-    return { status: 500, message: 'Unknown error' };
+  handle(_: unknown): TErrorResponse {
+    return { status: 500, message: 'Unknown error', type: error.name };
   }
 }
 
