@@ -9,9 +9,9 @@ import {
 } from '@nestjs/swagger';
 import { ProxyBodyDto, ProxyErrorDto, ProxyResponseDto } from './proxy.dto';
 
-const ProxyApiTags = ApiTags('proxy');
+const SwaggerProxyApiTags = ApiTags('proxy');
 
-const ProxyMetadata = {
+const SwaggerProxyMetadata = {
   operationGet: ApiOperation({ summary: 'Proxy GET' }),
   operationPost: ApiOperation({ summary: 'Proxy POST' }),
   operationPut: ApiOperation({ summary: 'Proxy PUT' }),
@@ -45,4 +45,4 @@ const ProxyMetadata = {
   }),
 };
 
-export { ProxyApiTags, ProxyMetadata };
+export { SwaggerProxyApiTags, SwaggerProxyMetadata };

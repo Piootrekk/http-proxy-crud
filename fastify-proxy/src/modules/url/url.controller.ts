@@ -1,40 +1,23 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import {
+  decodeEncodedUrl,
   deleteUrlData,
+  errorHandler,
   getUrlData,
   patchUrlData,
   postUrlData,
   putUrlData,
 } from "./url.service";
-import { TErrorResponse, TUrlBody, TUrlParam } from "./url.schema";
-import { AxiosError } from "axios";
-
-const errorHandler = (err: unknown): Omit<TErrorResponse, "path"> => {
-  if (err instanceof AxiosError)
-    return {
-      message: err.message,
-      code: err.code,
-      status: err.response?.status,
-    };
-  else {
-    return {
-      message: "Unknown error",
-      code: "ERROR",
-      status: 500,
-    };
-  }
-};
+import { TUrlBody, TUrlParam } from "./url.schema";
 
 const getUrlHandler = async (
   request: FastifyRequest<{ Params: TUrlParam }>,
   reply: FastifyReply
 ) => {
-  // const link = decodeURIComponent(request.params.link);
-  const link = decodeURIComponent(request.params["*"]);
-
-  console.log(`LINK:` + link);
+  const link = request.params["*"];
   try {
-    const response = await getUrlData(link);
+    const decodedUrl = decodeEncodedUrl(link);
+    const response = await getUrlData(decodedUrl);
     reply.status(200).send(response.data);
   } catch (error) {
     const errHandler = errorHandler(error);

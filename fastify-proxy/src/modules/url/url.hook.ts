@@ -11,7 +11,6 @@ const preHandler = async (
     return;
   }
   request.params["*"] = rawQuery;
-  console.log(`RAWQUERY`, rawQuery);
 };
 
 export { preHandler };

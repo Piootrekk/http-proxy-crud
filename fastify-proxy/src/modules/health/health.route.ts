@@ -9,7 +9,7 @@ const healthRoutes = async (server: FastifyInstance) => {
       schema: {
         tags: ["Health"],
         response: {
-          "2xx": healthResponseSchemaJson,
+          "200": healthResponseSchemaJson,
         },
       },
     },

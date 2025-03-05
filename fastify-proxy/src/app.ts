@@ -6,7 +6,9 @@ import healthRoutes from "./modules/health/health.route";
 
 const buildApp = async () => {
   const app = Fastify({
-    logger: true,
+    logger: false,
+    maxParamLength: 5000,
+    ignoreTrailingSlash: true,
   });
 
   await app.register(cors);

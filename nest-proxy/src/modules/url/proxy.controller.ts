@@ -10,11 +10,11 @@ import {
   Put,
 } from '@nestjs/common';
 import ProxyService from './proxy.sevice';
-import { ProxyMetadata, ProxyApiTags } from './proxy.swagger';
+import { SwaggerProxyMetadata, SwaggerProxyApiTags } from './proxy.swagger';
 import { CommonService } from 'src/common/common.service';
 
 @Controller('url')
-@ProxyApiTags
+@SwaggerProxyApiTags
 class ProxyController {
   private readonly urlService: ProxyService;
   private readonly commonService: CommonService;
@@ -25,11 +25,11 @@ class ProxyController {
   }
 
   @Get('*path')
-  @ProxyMetadata.operationGet
-  @ProxyMetadata.params
-  @ProxyMetadata.okResponse
-  @ProxyMetadata.errorResponse
-  @ProxyMetadata.errorServer
+  @SwaggerProxyMetadata.operationGet
+  @SwaggerProxyMetadata.params
+  @SwaggerProxyMetadata.okResponse
+  @SwaggerProxyMetadata.errorResponse
+  @SwaggerProxyMetadata.errorServer
   async getProxy(@Param('path') path: string) {
     try {
       const normaizedUrl = this.urlService.decodeEncodedUrl(path);
@@ -49,14 +49,14 @@ class ProxyController {
       );
     }
   }
-  
+
   @Post('*path')
-  @ProxyMetadata.operationPost
-  @ProxyMetadata.params
-  @ProxyMetadata.body
-  @ProxyMetadata.okResponse
-  @ProxyMetadata.errorResponse
-  @ProxyMetadata.errorServer
+  @SwaggerProxyMetadata.operationPost
+  @SwaggerProxyMetadata.params
+  @SwaggerProxyMetadata.body
+  @SwaggerProxyMetadata.okResponse
+  @SwaggerProxyMetadata.errorResponse
+  @SwaggerProxyMetadata.errorServer
   async postProxy(@Param('path') path: string, @Body() body: unknown) {
     try {
       const normaizedUrl = this.urlService.decodeEncodedUrl(path);
@@ -78,12 +78,12 @@ class ProxyController {
   }
 
   @Put('*path')
-  @ProxyMetadata.operationPut
-  @ProxyMetadata.params
-  @ProxyMetadata.body
-  @ProxyMetadata.okResponse
-  @ProxyMetadata.errorResponse
-  @ProxyMetadata.errorServer
+  @SwaggerProxyMetadata.operationPut
+  @SwaggerProxyMetadata.params
+  @SwaggerProxyMetadata.body
+  @SwaggerProxyMetadata.okResponse
+  @SwaggerProxyMetadata.errorResponse
+  @SwaggerProxyMetadata.errorServer
   async putProxy(@Param('path') path: string, @Body() body: unknown) {
     try {
       const normaizedUrl = this.urlService.decodeEncodedUrl(path);
@@ -105,12 +105,12 @@ class ProxyController {
   }
 
   @Patch('*path')
-  @ProxyMetadata.operationPatch
-  @ProxyMetadata.params
-  @ProxyMetadata.body
-  @ProxyMetadata.okResponse
-  @ProxyMetadata.errorResponse
-  @ProxyMetadata.errorServer
+  @SwaggerProxyMetadata.operationPatch
+  @SwaggerProxyMetadata.params
+  @SwaggerProxyMetadata.body
+  @SwaggerProxyMetadata.okResponse
+  @SwaggerProxyMetadata.errorResponse
+  @SwaggerProxyMetadata.errorServer
   async patchProxy(@Param('path') path: string, @Body() body: unknown) {
     try {
       const normaizedUrl = this.urlService.decodeEncodedUrl(path);
@@ -132,11 +132,11 @@ class ProxyController {
   }
 
   @Delete('*path')
-  @ProxyMetadata.operationPost
-  @ProxyMetadata.params
-  @ProxyMetadata.okResponse
-  @ProxyMetadata.errorResponse
-  @ProxyMetadata.errorServer
+  @SwaggerProxyMetadata.operationDelete
+  @SwaggerProxyMetadata.params
+  @SwaggerProxyMetadata.okResponse
+  @SwaggerProxyMetadata.errorResponse
+  @SwaggerProxyMetadata.errorServer
   async deleteProxy(@Param('path') path: string) {
     try {
       const normaizedUrl = this.urlService.decodeEncodedUrl(path);

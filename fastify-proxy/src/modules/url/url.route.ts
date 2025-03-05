@@ -22,9 +22,9 @@ const urlRoutes = async (server: FastifyInstance) => {
         tags: ["URL"],
         params: urlParamSchemaJson,
         response: {
-          "2xx": urlResponseSchemaJson,
-          "4xx": urlResponseRerrorSchemaJson,
-          "5xx": urlResponseRerrorSchemaJson,
+          "200": urlResponseSchemaJson,
+          "400": urlResponseRerrorSchemaJson,
+          "500": urlResponseRerrorSchemaJson,
         },
       },
       preHandler: preHandler,
@@ -39,11 +39,12 @@ const urlRoutes = async (server: FastifyInstance) => {
         params: urlParamSchemaJson,
         body: urlBodySchemaJson,
         response: {
-          "2xx": urlResponseSchemaJson,
-          "4xx": urlResponseRerrorSchemaJson,
-          "5xx": urlResponseRerrorSchemaJson,
+          "200": urlResponseSchemaJson,
+          "400": urlResponseRerrorSchemaJson,
+          "500": urlResponseRerrorSchemaJson,
         },
       },
+      preHandler: preHandler,
     },
     postUrlHandler
   );
@@ -54,11 +55,12 @@ const urlRoutes = async (server: FastifyInstance) => {
         tags: ["URL"],
         params: urlParamSchemaJson,
         response: {
-          "2xx": urlResponseSchemaJson,
-          "4xx": urlResponseRerrorSchemaJson,
-          "5xx": urlResponseRerrorSchemaJson,
+          "200": urlResponseSchemaJson,
+          "400": urlResponseRerrorSchemaJson,
+          "500": urlResponseRerrorSchemaJson,
         },
       },
+      preHandler: preHandler,
     },
     deletetUrlHandler
   );
@@ -70,11 +72,12 @@ const urlRoutes = async (server: FastifyInstance) => {
         params: urlParamSchemaJson,
         body: urlBodySchemaJson,
         response: {
-          "2xx": urlResponseSchemaJson,
-          "4xx": urlResponseRerrorSchemaJson,
-          "5xx": urlResponseRerrorSchemaJson,
+          "200": urlResponseSchemaJson,
+          "400": urlResponseRerrorSchemaJson,
+          "500": urlResponseRerrorSchemaJson,
         },
       },
+      preHandler: preHandler,
     },
     putUrlHandler
   );
@@ -86,11 +89,12 @@ const urlRoutes = async (server: FastifyInstance) => {
         params: urlParamSchemaJson,
         body: urlBodySchemaJson,
         response: {
-          "2xx": urlResponseSchemaJson,
-          "4xx": urlResponseRerrorSchemaJson,
-          "5xx": urlResponseRerrorSchemaJson,
+          "200": urlResponseSchemaJson,
+          "400": urlResponseRerrorSchemaJson,
+          "500": urlResponseRerrorSchemaJson,
         },
       },
+      preHandler: preHandler,
     },
     patchUrlHandler
   );
