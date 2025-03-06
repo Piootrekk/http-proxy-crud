@@ -10,12 +10,15 @@ class ProxyService {
 
   decodeEncodedUrl(rawUrl: string): string {
     if (!rawUrl.startsWith('http://') && !rawUrl.startsWith('https://')) {
-      console.log(rawUrl);
       const decodedUrl = decodeURIComponent(rawUrl);
-      console.log(decodedUrl);
       return decodedUrl;
     }
     return rawUrl;
+  }
+
+  fixWildCardRequest(requstUrl: string): string {
+    const adjustedUrl = requstUrl.replace(`/url/`, '');
+    return adjustedUrl;
   }
 
   async getData(url: string): Promise<unknown> {

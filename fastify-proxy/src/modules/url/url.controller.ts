@@ -32,12 +32,11 @@ const deletetUrlHandler = async (
   request: FastifyRequest<{ Params: TUrlParam }>,
   reply: FastifyReply
 ) => {
-  // const link = request.params.link;
-  const link = decodeURIComponent(request.params["*"]);
+  const link = request.params["*"];
 
-  console.log(link);
   try {
-    const response = await deleteUrlData(link);
+    const decodedUrl = decodeEncodedUrl(link);
+    const response = await deleteUrlData(decodedUrl);
     reply.status(200).send(response.data);
   } catch (error) {
     const errHandler = errorHandler(error);
@@ -52,12 +51,11 @@ const postUrlHandler = async (
   request: FastifyRequest<{ Params: TUrlParam; Body: TUrlBody }>,
   reply: FastifyReply
 ) => {
-  // const link = request.params.link;
-  const link = decodeURIComponent(request.params["*"]);
-
+  const link = request.params["*"];
   const data = request.body;
   try {
-    const response = await postUrlData(link, data);
+    const decodedUrl = decodeEncodedUrl(link);
+    const response = await postUrlData(decodedUrl, data);
     reply.status(response.status).send(response.data);
   } catch (error) {
     const errHandler = errorHandler(error);
@@ -72,12 +70,11 @@ const patchUrlHandler = async (
   request: FastifyRequest<{ Params: TUrlParam; Body: TUrlBody }>,
   reply: FastifyReply
 ) => {
-  // const link = request.params.link;
-  const link = decodeURIComponent(request.params["*"]);
-
+  const link = request.params["*"];
   const data = request.body;
   try {
-    const response = await patchUrlData(link, data);
+    const decodedUrl = decodeEncodedUrl(link);
+    const response = await patchUrlData(decodedUrl, data);
     reply.status(response.status).send(response.data);
   } catch (error) {
     const errHandler = errorHandler(error);
@@ -92,13 +89,11 @@ const putUrlHandler = async (
   request: FastifyRequest<{ Params: TUrlParam; Body: TUrlBody }>,
   reply: FastifyReply
 ) => {
-  // const link = request.params.link;
-  const link = decodeURIComponent(request.params["*"]);
-
+  const link = request.params["*"];
   const data = request.body;
-
   try {
-    const response = await putUrlData(link, data);
+    const decodedUrl = decodeEncodedUrl(link);
+    const response = await putUrlData(decodedUrl, data);
     reply.status(response.status).send(response.data);
   } catch (error) {
     const errHandler = errorHandler(error);
