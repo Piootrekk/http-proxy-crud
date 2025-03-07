@@ -10,7 +10,7 @@ import {
 } from "./url.service";
 import { TUrlBody, TUrlParam } from "./url.schema";
 
-const getUrlHandler = async (
+const getUrlController = async (
   request: FastifyRequest<{ Params: TUrlParam }>,
   reply: FastifyReply
 ) => {
@@ -28,7 +28,7 @@ const getUrlHandler = async (
   }
 };
 
-const deletetUrlHandler = async (
+const deleteUrlController = async (
   request: FastifyRequest<{ Params: TUrlParam }>,
   reply: FastifyReply
 ) => {
@@ -47,7 +47,7 @@ const deletetUrlHandler = async (
   }
 };
 
-const postUrlHandler = async (
+const postUrlController = async (
   request: FastifyRequest<{ Params: TUrlParam; Body: TUrlBody }>,
   reply: FastifyReply
 ) => {
@@ -66,7 +66,7 @@ const postUrlHandler = async (
   }
 };
 
-const patchUrlHandler = async (
+const patchUrlController = async (
   request: FastifyRequest<{ Params: TUrlParam; Body: TUrlBody }>,
   reply: FastifyReply
 ) => {
@@ -85,7 +85,7 @@ const patchUrlHandler = async (
   }
 };
 
-const putUrlHandler = async (
+const PutUrlController = async (
   request: FastifyRequest<{ Params: TUrlParam; Body: TUrlBody }>,
   reply: FastifyReply
 ) => {
@@ -105,9 +105,9 @@ const putUrlHandler = async (
 };
 
 export {
-  getUrlHandler,
-  postUrlHandler,
-  deletetUrlHandler,
-  putUrlHandler,
-  patchUrlHandler,
+  getUrlController,
+  postUrlController,
+  deleteUrlController,
+  PutUrlController,
+  patchUrlController,
 };

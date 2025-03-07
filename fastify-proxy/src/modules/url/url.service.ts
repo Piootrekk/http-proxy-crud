@@ -1,6 +1,5 @@
-import { AxiosError } from "axios";
+import { AxiosError, AxiosRequestConfig } from "axios";
 import axiosInstance from "../../config/axios";
-import { TJsonable } from "../../types/jsonable.types";
 import { TErrorResponse } from "./url.schema";
 
 const getUrlData = async (link: string) => {
@@ -13,17 +12,17 @@ const deleteUrlData = async (link: string) => {
   return response;
 };
 
-const postUrlData = async (link: string, body: TJsonable) => {
+const postUrlData = async (link: string, body: unknown) => {
   const response = await axiosInstance.post(link, body);
   return response;
 };
 
-const putUrlData = async (link: string, body: TJsonable) => {
+const putUrlData = async (link: string, body: unknown) => {
   const response = await axiosInstance.put(link, body);
   return response;
 };
 
-const patchUrlData = async (link: string, body: TJsonable) => {
+const patchUrlData = async (link: string, body: unknown) => {
   const response = await axiosInstance.patch(link, body);
   return response;
 };

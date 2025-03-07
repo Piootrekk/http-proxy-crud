@@ -1,3 +1,4 @@
+import { FastifySchema } from "fastify";
 import { z } from "zod";
 import zodToJsonSchema from "zod-to-json-schema";
 
@@ -5,6 +6,13 @@ const responseSchema = z.object({
   health: z.boolean(),
 });
 
-const healthResponseSchemaJson = zodToJsonSchema(responseSchema);
+const healthResponseDto = zodToJsonSchema(responseSchema);
 
-export { healthResponseSchemaJson };
+const healthSchema: FastifySchema = {
+  tags: ["Health"],
+  response: {
+    "200": healthResponseDto,
+  },
+};
+
+export { healthSchema };

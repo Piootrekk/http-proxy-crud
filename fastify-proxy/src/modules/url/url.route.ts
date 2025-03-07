@@ -1,102 +1,55 @@
 import { FastifyInstance } from "fastify";
 import {
-  getUrlHandler,
-  postUrlHandler,
-  deletetUrlHandler,
-  putUrlHandler,
-  patchUrlHandler,
+  getUrlController,
+  postUrlController,
+  deleteUrlController,
+  patchUrlController,
+  PutUrlController,
 } from "./url.controller";
-import {
-  urlBodySchemaJson,
-  urlParamSchemaJson,
-  urlResponseRerrorSchemaJson,
-  urlResponseSchemaJson,
-} from "./url.schema";
-import { preHandler } from "./url.hook";
+import { urlSchema, urlWithBodySchema } from "./url.schema";
+import { preHandlerHook } from "./url.hook";
 
 const urlRoutes = async (server: FastifyInstance) => {
   server.get(
     "/*",
     {
-      schema: {
-        tags: ["URL"],
-        params: urlParamSchemaJson,
-        response: {
-          "200": urlResponseSchemaJson,
-          "400": urlResponseRerrorSchemaJson,
-          "500": urlResponseRerrorSchemaJson,
-        },
-      },
-      preHandler: preHandler,
+      schema: urlSchema,
+      preHandler: preHandlerHook,
     },
-    getUrlHandler
+    getUrlController
   );
   server.post(
     "/*",
     {
-      schema: {
-        tags: ["URL"],
-        params: urlParamSchemaJson,
-        body: urlBodySchemaJson,
-        response: {
-          "200": urlResponseSchemaJson,
-          "400": urlResponseRerrorSchemaJson,
-          "500": urlResponseRerrorSchemaJson,
-        },
-      },
-      preHandler: preHandler,
+      schema: urlWithBodySchema,
+      preHandler: preHandlerHook,
     },
-    postUrlHandler
+    postUrlController
   );
   server.delete(
     "/*",
     {
-      schema: {
-        tags: ["URL"],
-        params: urlParamSchemaJson,
-        response: {
-          "200": urlResponseSchemaJson,
-          "400": urlResponseRerrorSchemaJson,
-          "500": urlResponseRerrorSchemaJson,
-        },
-      },
-      preHandler: preHandler,
+      schema: urlSchema,
+      preHandler: preHandlerHook,
     },
-    deletetUrlHandler
+    deleteUrlController
   );
   server.put(
     "/*",
     {
-      schema: {
-        tags: ["URL"],
-        params: urlParamSchemaJson,
-        body: urlBodySchemaJson,
-        response: {
-          "200": urlResponseSchemaJson,
-          "400": urlResponseRerrorSchemaJson,
-          "500": urlResponseRerrorSchemaJson,
-        },
-      },
-      preHandler: preHandler,
+      schema: urlWithBodySchema,
+      preHandler: preHandlerHook,
     },
-    putUrlHandler
+    PutUrlController
   );
   server.patch(
     "/*",
     {
-      schema: {
-        tags: ["URL"],
-        params: urlParamSchemaJson,
-        body: urlBodySchemaJson,
-        response: {
-          "200": urlResponseSchemaJson,
-          "400": urlResponseRerrorSchemaJson,
-          "500": urlResponseRerrorSchemaJson,
-        },
-      },
-      preHandler: preHandler,
+      schema: urlWithBodySchema,
+      preHandler: preHandlerHook,
     },
-    patchUrlHandler
+    patchUrlController
   );
 };
+
 export default urlRoutes;

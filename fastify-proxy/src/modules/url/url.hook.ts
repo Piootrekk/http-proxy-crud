@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { TUrlParam } from "./url.schema";
 
-const preHandler = async (
+const preHandlerHook = async (
   request: FastifyRequest<{ Params: TUrlParam }>,
   reply: FastifyReply
 ) => {
@@ -13,4 +13,4 @@ const preHandler = async (
   request.params["*"] = rawQuery;
 };
 
-export { preHandler };
+export { preHandlerHook };
