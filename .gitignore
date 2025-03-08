@@ -1,6 +1,4 @@
-# Pliki środowiskowe
 .env
-# Express.js ignore files
 node_modules/
 dist/
 
@@ -15,22 +13,16 @@ dist/
 *.temp
 *.bak
 
-# Logi błędów
 npm-debug.log*
 
-# Plik konfiguracyjny Yarn
 .yarn
 
-# Pliki tymczasowe Windows
 Thumbs.db
 Desktop.ini
 $RECYCLE.BIN/
-
-# Pliky Visual Studio Code
 .vscode/
 *.code-workspace
 
-# Katalog yarn cache
 .yarn/cache/
 .yarn/unplugged/
 .yarn/build-state.yml
@@ -42,7 +34,6 @@ $RECYCLE.BIN/
 !.yarn/sdks
 !.yarn/versions
 
-# Katalogi specyficzne dla różnych narzędzi
 .idea/
 .eslintcache
 .pnp/

@@ -1,6 +1,6 @@
-FROM node:latest
+FROM node:23-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 
@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3001
+EXPOSE 3000
 
 CMD ["npm", "start"]

@@ -1,10 +1,10 @@
-const express = require("express");
-const axios = require("axios");
-const swaggerUi = require("swagger-ui-express");
-const YAML = require("yamljs");
+import express from "express";
+import axios from "axios";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
 
 const app = express();
-const port = 3001;
+const port = 3000;
 const swaggerDocument = YAML.load("./swagger-definition.yaml");
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

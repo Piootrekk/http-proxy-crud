@@ -1,19 +1,17 @@
-FROM node:latest
+FROM node:23-alpine
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package.json  ./
 
-RUN yarn --pure-lockfile
+RUN yarn install --pure-lockfile
 
 COPY . .
 
 RUN yarn build
 
-ARG PORT=3000
+ENV PORT=3000
 
-ENV PORT=$PORT
-
-EXPOSE $PORT
+EXPOSE 3000
 
 CMD ["yarn", "start"]
