@@ -19,6 +19,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./nest-proxy
+          context: ./express-proxy
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{secrets.DOCKER_REPO_NAME_EXPRESS}}:latest-${{github.run_number}}

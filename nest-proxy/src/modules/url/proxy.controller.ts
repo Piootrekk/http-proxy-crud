@@ -11,7 +11,7 @@ import {
   Req,
 } from '@nestjs/common';
 import ProxyService from './proxy.sevice';
-import { SwaggerProxyMetadata, SwaggerProxyApiTags } from './proxy.swagger';
+import { ProxySwagger, SwaggerProxyApiTags } from './proxy.swagger';
 import { CommonService } from 'src/common/common.service';
 
 @Controller('url')
@@ -25,11 +25,7 @@ class ProxyController {
     this.commonService = commonService;
   }
 
-  @SwaggerProxyMetadata.operationGet
-  @SwaggerProxyMetadata.params
-  @SwaggerProxyMetadata.okResponse
-  @SwaggerProxyMetadata.errorResponse
-  @SwaggerProxyMetadata.errorServer
+  @ProxySwagger('GET')
   @Get('*path')
   async getProxy(@Param('path') path: string, @Req() request: Request) {
     try {
@@ -53,12 +49,7 @@ class ProxyController {
   }
 
   @Post('*path')
-  @SwaggerProxyMetadata.operationPost
-  @SwaggerProxyMetadata.params
-  @SwaggerProxyMetadata.body
-  @SwaggerProxyMetadata.okResponse
-  @SwaggerProxyMetadata.errorResponse
-  @SwaggerProxyMetadata.errorServer
+  @ProxySwagger('POST')
   async postProxy(
     @Param('path') path: string,
     @Body() body: unknown,
@@ -85,12 +76,7 @@ class ProxyController {
   }
 
   @Put('*path')
-  @SwaggerProxyMetadata.operationPut
-  @SwaggerProxyMetadata.params
-  @SwaggerProxyMetadata.body
-  @SwaggerProxyMetadata.okResponse
-  @SwaggerProxyMetadata.errorResponse
-  @SwaggerProxyMetadata.errorServer
+  @ProxySwagger('PUT')
   async putProxy(
     @Param('path') path: string,
     @Body() body: unknown,
@@ -117,12 +103,7 @@ class ProxyController {
   }
 
   @Patch('*path')
-  @SwaggerProxyMetadata.operationPatch
-  @SwaggerProxyMetadata.params
-  @SwaggerProxyMetadata.body
-  @SwaggerProxyMetadata.okResponse
-  @SwaggerProxyMetadata.errorResponse
-  @SwaggerProxyMetadata.errorServer
+  @ProxySwagger('PATCH')
   async patchProxy(
     @Param('path') path: string,
     @Body() body: unknown,
@@ -149,11 +130,7 @@ class ProxyController {
   }
 
   @Delete('*path')
-  @SwaggerProxyMetadata.operationDelete
-  @SwaggerProxyMetadata.params
-  @SwaggerProxyMetadata.okResponse
-  @SwaggerProxyMetadata.errorResponse
-  @SwaggerProxyMetadata.errorServer
+  @ProxySwagger('DELETE')
   async deleteProxy(@Param('path') path: string, @Req() request: Request) {
     try {
       path = this.urlService.fixWildCardRequest(request.url);

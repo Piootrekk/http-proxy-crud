@@ -8,41 +8,56 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ProxyBodyDto, ProxyErrorDto, ProxyResponseDto } from './proxy.dto';
+import { applyDecorators } from '@nestjs/common';
+
+enum EnumMethods {
+  'GET' = 'PROXY GET',
+  'POST' = 'PROXY POST',
+  'PUT' = 'PROXY PUT',
+  'PATCH' = 'PROXY PATCH',
+  'DELETE' = 'PROXY DELETE',
+}
+
+type TMethod = keyof typeof EnumMethods;
 
 const SwaggerProxyApiTags = ApiTags('proxy');
 
-const SwaggerProxyMetadata = {
-  operationGet: ApiOperation({ summary: 'Proxy GET' }),
-  operationPost: ApiOperation({ summary: 'Proxy POST' }),
-  operationPut: ApiOperation({ summary: 'Proxy PUT' }),
-  operationPatch: ApiOperation({ summary: 'Proxy PATCH' }),
-  operationDelete: ApiOperation({ summary: 'Proxy DELETE' }),
+const ProxySwagger = (method: TMethod) => {
+  const isUsingBody =
+    method === 'PATCH' || method === 'PUT' || method === 'POST';
+  const decorators = [
+    ApiOperation({ summary: EnumMethods[method] }),
+    ApiParam({
+      name: 'path',
+      type: String,
+      description: 'Provide URL to fetch data',
+      required: true,
+      allowReserved: true,
+    }),
+    ApiOkResponse({
+      description: 'Returns data from URL',
+      type: ProxyResponseDto,
+      example: { example: 'yes' },
+    }),
+    ApiBadRequestResponse({
+      description: 'Error schema request/response proxy',
+      type: ProxyErrorDto,
+    }),
+    ApiInternalServerErrorResponse({
+      description: 'Error schema internal server proxy',
+      type: ProxyErrorDto,
+    }),
+  ];
 
-  params: ApiParam({
-    name: 'path',
-    type: String,
-    description: 'Provide URL to fetch data',
-    required: true,
-    allowReserved: true,
-  }),
+  if (isUsingBody) {
+    decorators.push(
+      ApiBody({
+        type: ProxyBodyDto,
+      }),
+    );
+  }
 
-  body: ApiBody({
-    type: ProxyBodyDto,
-  }),
-
-  okResponse: ApiOkResponse({
-    description: 'Returns data from url',
-    type: ProxyResponseDto,
-    example: { example: 'yes' },
-  }),
-  errorResponse: ApiBadRequestResponse({
-    description: 'Error schema request/response proxy',
-    type: ProxyErrorDto,
-  }),
-  errorServer: ApiInternalServerErrorResponse({
-    description: 'Error schema internal server proxy',
-    type: ProxyErrorDto,
-  }),
+  return applyDecorators(...decorators);
 };
 
-export { SwaggerProxyApiTags, SwaggerProxyMetadata };
+export { SwaggerProxyApiTags, ProxySwagger };
